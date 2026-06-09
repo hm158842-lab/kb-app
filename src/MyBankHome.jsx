@@ -66,7 +66,12 @@ export default function MyBankHome() {
           <div className="absolute inset-0 z-30 flex flex-col" style={{ backgroundColor: "#FFFFFF" }}>
             {/* 헤더 */}
             <header className="flex items-center justify-between px-5 pt-5 pb-3">
-              <img src="/logo.png" alt="" className="w-8 h-8 rounded-full object-cover" />
+              <div className="flex items-center gap-2">
+                <button onClick={() => setView("home")} className="active:opacity-60">
+                  <ChevronLeft size={26} style={{ color: KB_DARK }} />
+                </button>
+                <span className="text-[19px] font-bold" style={{ color: KB_DARK }}>전체계좌조회</span>
+              </div>
               <div className="flex items-center gap-4" style={{ color: KB_DARK }}>
                 <Headphones size={22} /><Home size={22} /><Menu size={24} />
               </div>
@@ -275,9 +280,7 @@ export default function MyBankHome() {
           <section className="bg-white rounded-2xl p-5 shadow-sm">
             <div className="flex items-start justify-between">
               <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ backgroundColor: "#5B4636" }}>
-                  <Star size={15} fill={KB_YELLOW} stroke={KB_YELLOW} />
-                </div>
+               <img src="/logo.png" alt="" className="w-8 h-8 rounded-full object-cover" />
                 <div>
                   <p className="text-[18px] font-bold leading-tight" style={{ color: KB_DARK }}>{acc.name}</p>
                   <div className="flex items-center gap-1.5 mt-0.5">
