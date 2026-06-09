@@ -24,7 +24,7 @@ export default function MyBankHome() {
       openDate: "2026.04.28", payMonth: "2028.05" },
     { kind: "예금", name: "KB정기예금", number: "684531-88-132437", balance: 50_000_000,
       rate: "2.8%", maturity: "2027.02.16" },
-    { kind: "적금", name: "KB내집마련 적금", number: "674311-21-009568", balance: 8_400_000,
+    { kind: "적금", name: "KB내맘대로적금", number: "674311-21-009568", balance: 8_400_000,
       monthly: "600,000원", maturity: "2029.04.16" },
   ];
   const allTotal = allAccounts.reduce((s, a) => s + a.balance, 0);
