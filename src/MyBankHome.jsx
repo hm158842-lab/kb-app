@@ -43,8 +43,7 @@ export default function MyBankHome() {
       name: "KB Star 정기예금",
       number: "684531-88-132437",
       balance: 50_000_000,
-      contacts: ["이만희", "백혜정", "오르라수학"],
-    },
+     },
     {
       type: "적금",
       name: "KB내집마련 적금",
