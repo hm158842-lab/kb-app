@@ -21,11 +21,11 @@ export default function MyBankHome() {
   const allAccounts = [
     { kind: "입출금", name: "KB Wise통장-보통예금", number: "614501-04-194268", balance: 1_106_077 },
     { kind: "청약", name: "청년 주택드림 청약통장", number: "680207-04-114061", balance: 10_000_000,
-      openDate: "2026.04.28", payMonth: "2026.05" },
+      openDate: "2026.04.28", payMonth: "2028.05" },
     { kind: "예금", name: "KB정기예금", number: "684531-88-132437", balance: 50_000_000,
-      rate: "3.45%", maturity: "2026.12.16" },
+      rate: "2.8%", maturity: "2027.02.16" },
     { kind: "적금", name: "KB내집마련 적금", number: "674311-21-009568", balance: 8_400_000,
-      monthly: "600,000원", maturity: "2027.04.16" },
+      monthly: "600,000원", maturity: "2029.04.16" },
   ];
   const allTotal = allAccounts.reduce((s, a) => s + a.balance, 0);
 
