@@ -46,7 +46,7 @@ export default function MyBankHome() {
      },
     {
       type: "적금",
-      name: "KB내집마련 적금",
+      name: "KB맘대로 적금",
       number: "674311-21-009568",
       balance: 8_400_000,
       contacts: ["이만희", "백혜정"],
@@ -66,12 +66,7 @@ export default function MyBankHome() {
           <div className="absolute inset-0 z-30 flex flex-col" style={{ backgroundColor: "#FFFFFF" }}>
             {/* 헤더 */}
             <header className="flex items-center justify-between px-5 pt-5 pb-3">
-              <div className="flex items-center gap-2">
-                <button onClick={() => setView("home")} className="active:opacity-60">
-                  <ChevronLeft size={26} style={{ color: KB_DARK }} />
-                </button>
-                <span className="text-[19px] font-bold" style={{ color: KB_DARK }}>전체계좌조회</span>
-              </div>
+              <img src="/logo.png" alt="" className="w-8 h-8 rounded-full object-cover" />
               <div className="flex items-center gap-4" style={{ color: KB_DARK }}>
                 <Headphones size={22} /><Home size={22} /><Menu size={24} />
               </div>
