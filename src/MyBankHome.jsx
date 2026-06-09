@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import {
   Bell, Search, Menu, ChevronRight, ChevronLeft, X, MoreVertical, Copy,
   Star, ShoppingBag, PieChart, Wallet, Gift, CreditCard, Plus,
+  HelpCircle, Headphones, Home, ChevronUp, ArrowDownUp, Rows3,
 } from "lucide-react";
 
 const KB_YELLOW = "#FFCC00";
@@ -18,10 +19,13 @@ export default function MyBankHome() {
 
   // 전체 계좌 목록
   const allAccounts = [
-    { name: "KB Wise통장-보통예금", number: "614501-04-194268", balance: 1_106_077, group: "입출금" },
-    { name: "청약저축", number: "614501-30-552014", balance: 10_000_000, group: "청약" },
-    { name: "KB정기예금", number: "614501-88-112233", balance: 50_000_000, group: "예금" },
-    { name: "KB내집마련 적금", number: "614501-21-009988", balance: 8_400_000, group: "적금" },
+    { kind: "입출금", name: "KB Wise통장-보통예금", number: "614501-04-194268", balance: 1_106_077 },
+    { kind: "청약", name: "청년 주택드림 청약통장", number: "680207-04-114061", balance: 10_000_000,
+      openDate: "2026.04.28", payMonth: "2026.05" },
+    { kind: "예금", name: "KB정기예금", number: "614501-88-112233", balance: 50_000_000,
+      rate: "3.45%", maturity: "2026.12.16" },
+    { kind: "적금", name: "KB내집마련 적금", number: "614501-21-009988", balance: 8_400_000,
+      monthly: "600,000원", maturity: "2027.04.16" },
   ];
   const allTotal = allAccounts.reduce((s, a) => s + a.balance, 0);
 
@@ -60,53 +64,166 @@ export default function MyBankHome() {
 
         {/* 전체 계좌 화면 (오버레이) */}
         {view === "all" && (
-          <div className="absolute inset-0 z-30 flex flex-col" style={{ backgroundColor: "#F4F6F8" }}>
-            <header className="flex items-center gap-3 px-5 pt-5 pb-4">
-              <button onClick={() => setView("home")} className="active:opacity-60">
-                <ChevronLeft size={26} style={{ color: KB_DARK }} />
-              </button>
-              <span className="text-[19px] font-bold" style={{ color: KB_DARK }}>내 계좌</span>
+          <div className="absolute inset-0 z-30 flex flex-col" style={{ backgroundColor: "#FFFFFF" }}>
+            {/* 헤더 */}
+            <header className="flex items-center justify-between px-5 pt-5 pb-3">
+              <div className="flex items-center gap-2">
+                <button onClick={() => setView("home")} className="active:opacity-60">
+                  <ChevronLeft size={26} style={{ color: KB_DARK }} />
+                </button>
+                <span className="text-[19px] font-bold" style={{ color: KB_DARK }}>전체계좌조회</span>
+              </div>
+              <div className="flex items-center gap-4" style={{ color: KB_DARK }}>
+                <Headphones size={22} /><Home size={22} /><Menu size={24} />
+              </div>
             </header>
 
-            <div className="px-5 pb-4">
-              <p className="text-[14px]" style={{ color: KB_GRAY }}>총 잔액</p>
-              <p className="text-[28px] font-extrabold tracking-tight" style={{ color: KB_DARK }}>{won(allTotal)}원</p>
+            {/* 탭 */}
+            <div className="flex items-center gap-6 px-5 border-b border-gray-100">
+              <div className="pb-2.5 border-b-2" style={{ borderColor: KB_DARK }}>
+                <span className="text-[17px] font-bold" style={{ color: KB_DARK }}>KB국민은행</span>
+              </div>
+              <div className="pb-2.5">
+                <span className="text-[17px] font-bold" style={{ color: "#B6BCC4" }}>다른금융</span>
+              </div>
             </div>
 
-            <div className="flex-1 overflow-y-auto px-4 pb-6 space-y-3">
-              {allAccounts.map((a, i) => (
-                <div key={i} className="bg-white rounded-2xl p-5 shadow-sm">
-                  <div className="flex items-start justify-between">
-                    <div className="flex items-center gap-2.5">
-                      <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ backgroundColor: "#5B4636" }}>
-                        <Star size={15} fill={KB_YELLOW} stroke={KB_YELLOW} />
-                      </div>
+            <div className="flex-1 overflow-y-auto pb-6">
+              {/* 알림 배너 */}
+              <div className="flex items-center gap-2.5 px-5 py-3.5 border-b border-gray-100">
+                <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ backgroundColor: "#3A3D42" }}>
+                  <Bell size={16} className="text-white" />
+                </div>
+                <span className="flex-1 text-[14px] font-medium" style={{ color: KB_DARK }}>
+                  입출금 알림을 실시간으로 받아보세요!
+                </span>
+                <ChevronRight size={18} className="text-gray-300" />
+              </div>
+
+              {/* 총 잔액 */}
+              <div className="px-5 pt-4 pb-3">
+                <div className="flex items-center gap-2">
+                  <span className="text-[15px] font-semibold" style={{ color: KB_DARK }}>총 잔액</span>
+                  <HelpCircle size={16} className="text-gray-300" />
+                  <button onClick={() => setHidden((v) => !v)}
+                    className="ml-1 w-11 h-6 rounded-full flex items-center px-0.5 transition-colors"
+                    style={{ backgroundColor: hidden ? "#D7DBE0" : "#8C7A5B", justifyContent: hidden ? "flex-start" : "flex-end" }}>
+                    <span className="w-5 h-5 rounded-full bg-white shadow" />
+                  </button>
+                </div>
+                <p className="text-right text-[30px] font-extrabold tracking-tight mt-2" style={{ color: KB_DARK }}>
+                  {hidden ? "•••••••" : won(allTotal) + "원"}
+                </p>
+                <div className="grid grid-cols-2 gap-2.5 mt-3">
+                  <button className="rounded-xl py-3 text-[15px] font-bold active:opacity-80"
+                          style={{ backgroundColor: "#EDF0F3", color: KB_DARK }}>모으기</button>
+                  <button className="rounded-xl py-3 text-[15px] font-bold active:opacity-80"
+                          style={{ backgroundColor: KB_YELLOW, color: KB_DARK }}>이체</button>
+                </div>
+              </div>
+
+              {/* 구분 두꺼운 띠 */}
+              <div className="h-2" style={{ backgroundColor: "#F2F4F6" }} />
+
+              {/* 도구 행 */}
+              <div className="flex items-center justify-between px-5 py-3.5">
+                <button className="flex items-center gap-1.5 active:opacity-60">
+                  <Plus size={18} className="text-gray-500" />
+                  <span className="text-[14px] font-medium" style={{ color: KB_DARK }}>다른금융등록</span>
+                </button>
+                <div className="flex items-center gap-4">
+                  <button className="flex items-center gap-1 active:opacity-60">
+                    <Rows3 size={16} className="text-gray-500" />
+                    <span className="text-[14px] font-medium" style={{ color: KB_DARK }}>목록형</span>
+                  </button>
+                  <button className="flex items-center gap-1 active:opacity-60">
+                    <ArrowDownUp size={16} className="text-gray-500" />
+                    <span className="text-[14px] font-medium" style={{ color: KB_DARK }}>순서변경</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* 예금·적금 그룹 헤더 */}
+              <div className="mx-4 rounded-xl px-4 py-3 flex items-center justify-between" style={{ backgroundColor: "#EEF2FB" }}>
+                <span className="text-[16px] font-bold" style={{ color: KB_DARK }}>예금 · 적금</span>
+                <div className="flex items-center gap-2">
+                  <span className="text-[16px] font-bold" style={{ color: KB_DARK }}>
+                    {hidden ? "•••••••" : won(allTotal) + "원"}
+                  </span>
+                  <ChevronUp size={18} className="text-gray-400" />
+                </div>
+              </div>
+
+              {/* 계좌 카드들 */}
+              <div className="px-4 pt-3 space-y-3">
+                {allAccounts.map((a, i) => (
+                  <div key={i} className="bg-white rounded-2xl border border-gray-100 p-5 shadow-sm">
+                    <div className="flex items-start justify-between">
                       <div>
-                        <p className="text-[16px] font-bold leading-tight" style={{ color: KB_DARK }}>{a.name}</p>
-                        <div className="flex items-center gap-1.5 mt-0.5">
-                          <span className="text-[12px]" style={{ color: KB_GRAY }}>{a.number}</span>
-                          <Copy size={12} className="text-gray-300" />
+                        <p className="text-[17px] font-bold leading-snug" style={{ color: KB_DARK }}>{a.name}</p>
+                        <div className="flex items-center gap-1.5 mt-1">
+                          <span className="text-[15px] font-bold" style={{ color: KB_DARK }}>{a.number}</span>
+                          <Copy size={15} className="text-gray-300" />
                         </div>
                       </div>
+                      <MoreVertical size={20} className="text-gray-400" />
                     </div>
-                    <ChevronRight size={18} className="text-gray-300" />
-                  </div>
-                  <p className="text-[23px] font-extrabold mt-3 tracking-tight" style={{ color: KB_DARK }}>{won(a.balance)}원</p>
-                  <div className="grid grid-cols-2 gap-2.5 mt-3">
-                    <button className="rounded-xl py-2.5 text-[14px] font-bold active:opacity-80"
-                            style={{ backgroundColor: KB_YELLOW, color: KB_DARK }}>이체</button>
-                    <button className="rounded-xl py-2.5 text-[14px] font-bold active:opacity-80"
-                            style={{ backgroundColor: "#EDF0F3", color: KB_DARK }}>거래내역</button>
-                  </div>
-                </div>
-              ))}
 
-              <button className="w-full bg-white rounded-2xl px-5 py-4 shadow-sm flex items-center justify-center gap-1.5 active:bg-gray-50">
-                <Plus size={18} style={{ color: KB_DARK }} />
-                <span className="text-[15px] font-bold" style={{ color: KB_DARK }}>계좌 추가하기</span>
-              </button>
+                    {/* 청약: 신규일 / 납입월차 */}
+                    {a.kind === "청약" && (
+                      <div className="mt-3 space-y-1">
+                        <div className="flex gap-4 text-[14px]">
+                          <span style={{ color: KB_GRAY }}>신규일</span>
+                          <span style={{ color: KB_DARK }}>{a.openDate}</span>
+                        </div>
+                        <div className="flex gap-4 text-[14px]">
+                          <span style={{ color: KB_GRAY }}>납입월차</span>
+                          <span style={{ color: KB_DARK }}>{a.payMonth}</span>
+                        </div>
+                      </div>
+                    )}
+                    {/* 예금: 금리 / 만기 */}
+                    {a.kind === "예금" && (
+                      <div className="mt-3 space-y-1">
+                        <div className="flex gap-4 text-[14px]">
+                          <span style={{ color: KB_GRAY }}>약정금리</span>
+                          <span style={{ color: KB_DARK }}>{a.rate}</span>
+                        </div>
+                        <div className="flex gap-4 text-[14px]">
+                          <span style={{ color: KB_GRAY }}>만기일</span>
+                          <span style={{ color: KB_DARK }}>{a.maturity}</span>
+                        </div>
+                      </div>
+                    )}
+                    {/* 적금: 월납입 / 만기 */}
+                    {a.kind === "적금" && (
+                      <div className="mt-3 space-y-1">
+                        <div className="flex gap-4 text-[14px]">
+                          <span style={{ color: KB_GRAY }}>월 납입</span>
+                          <span style={{ color: KB_DARK }}>{a.monthly}</span>
+                        </div>
+                        <div className="flex gap-4 text-[14px]">
+                          <span style={{ color: KB_GRAY }}>만기일</span>
+                          <span style={{ color: KB_DARK }}>{a.maturity}</span>
+                        </div>
+                      </div>
+                    )}
 
-              <p className="text-center text-[11px] pt-1" style={{ color: KB_GRAY }}>
+                    <p className="text-right text-[24px] font-extrabold tracking-tight mt-3" style={{ color: KB_DARK }}>
+                      {hidden ? "•••••••" : won(a.balance) + "원"}
+                    </p>
+
+                    <div className="grid grid-cols-2 gap-2.5 mt-3">
+                      <button className="rounded-xl py-2.5 text-[14px] font-bold active:opacity-80"
+                              style={{ backgroundColor: "#EDF0F3", color: KB_DARK }}>모으기</button>
+                      <button className="rounded-xl py-2.5 text-[14px] font-bold active:opacity-80"
+                              style={{ backgroundColor: "#EDF0F3", color: KB_DARK }}>이체</button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <p className="text-center text-[11px] pt-4" style={{ color: KB_GRAY }}>
                 ※ 실제 은행과 무관한 데모 화면이에요
               </p>
             </div>
@@ -224,8 +341,7 @@ export default function MyBankHome() {
           </button>
 
           <p className="text-center text-[11px] pt-1" style={{ color: KB_GRAY }}>
-            ※ 실제 은행과 무관한 데모 화면이에요
-          </p>
+         </p>
         </main>
 
         {/* 하단 탭바 */}
