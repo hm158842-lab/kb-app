@@ -20,7 +20,7 @@ export default function MyBankHome() {
   // 전체 계좌 목록
   const allAccounts = [
     { kind: "입출금", name: "KB Wise통장-보통예금", number: "614501-04-194268", balance: 1_106_077 },
-    { kind: "청약", name: "청년 주택드림 청약통장", number: "680207-04-114061", balance: 10_250_000,
+    { kind: "청약", name: "청년 주택드림 청약통장", number: "680207-04-114061", balance: 10_500_000,
       openDate: "2026.04.28", payMonth: "2028.05" },
     { kind: "예금", name: "KB정기예금", number: "684531-88-132437", balance: 50_000_000,
       rate: "2.8%", maturity: "2027.02.16" },
