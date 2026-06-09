@@ -41,14 +41,14 @@ export default function MyBankHome() {
     {
       type: "정기예금",
       name: "KB Star 정기예금",
-      number: "614501-88-112233",
+      number: "684531-88-132437",
       balance: 50_000_000,
       contacts: ["이만희", "백혜정", "오르라수학"],
     },
     {
       type: "적금",
       name: "KB내집마련 적금",
-      number: "614501-21-009988",
+      number: "674311-21-009568",
       balance: 8_400_000,
       contacts: ["이만희", "백혜정"],
     },
@@ -224,7 +224,7 @@ export default function MyBankHome() {
               </div>
 
               <p className="text-center text-[11px] pt-4" style={{ color: KB_GRAY }}>
-                ※ 실제 은행과 무관한 데모 화면이에요
+                
               </p>
             </div>
           </div>
